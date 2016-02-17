@@ -1,17 +1,19 @@
-var gulp = require('gulp'),
-    stylus = require('gulp-stylus'),
-    jeet = require('jeet'),
-    koutoSwiss = require('kouto-swiss'),
-    prefixer = require('autoprefixer-stylus'),
-    browserSync = require('browser-sync'),
-    jade = require('gulp-jade'),
-    imagemin = require('gulp-imagemin'),
-    uglify = require('gulp-uglify'),
-    concat = require('gulp-concat')
-    rupture = require('rupture');
+'use strict';
 
-gulp.task('browser-sync', function() {
-  var files = [
+const gulp = require('gulp');
+const stylus = require('gulp-stylus')
+const jeet = require('jeet');
+const koutoSwiss = require('kouto-swiss');
+const prefixer = require('autoprefixer-stylus');
+const browserSync = require('browser-sync');
+const jade = require('gulp-jade');
+const imagemin = require('gulp-imagemin');
+const uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
+const rupture = require('rupture');
+
+gulp.task('browser-sync', () => {
+  const files = [
     'build/css/main.css',
     'build/css/main.js',
     'build/index.html'
@@ -23,7 +25,7 @@ gulp.task('browser-sync', function() {
   });
 });
 
-gulp.task('jade', function() {
+gulp.task('jade', () => {
   return gulp.src('index.jade')
     .pipe(jade({
       pretty: false
@@ -31,7 +33,7 @@ gulp.task('jade', function() {
     .pipe(gulp.dest('./build/'));
 });
 
-gulp.task('stylus', function() {
+gulp.task('stylus', () => {
   return gulp.src('src/styl/main.styl')
     .pipe(stylus({
       use: [jeet(), rupture(), prefixer(), koutoSwiss()],
@@ -40,7 +42,7 @@ gulp.task('stylus', function() {
     .pipe(gulp.dest('./build/css'));
 });
 
-gulp.task('imagemin', function() {
+gulp.task('imagemin', () => {
   return gulp.src( './src/img/**/*.{jpg, png, gif}' )
   .pipe( imagemin( {
       progressive: true,
@@ -49,14 +51,14 @@ gulp.task('imagemin', function() {
   .pipe( gulp.dest( './build/img' ) );
 });
 
-gulp.task('js', function() {
+gulp.task('js', () => {
 	return gulp.src('src/js/**/*.js')
 		.pipe(concat('main.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('build/js/'))
 });
 
-gulp.task( 'watch', function() {
+gulp.task( 'watch', () => {
   gulp.watch( 'src/styl/**/*.styl', [ 'stylus' ] );
   gulp.watch( 'src/js/**/*.js', [ 'js' ] );
   gulp.watch( 'index.jade', [ 'jade' ] );
